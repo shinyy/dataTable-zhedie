@@ -19,7 +19,7 @@ function format ( d ) {
         '</tr>'+
     '</table>';*/
 	
-	return '<table class="display example" cellspacing="0" width="100%" border="1" borderColor="#dddddd">'+
+	/*return '<table class="display example" cellspacing="0" width="100%" border="1" borderColor="#dddddd">'+
         '<tbody><tr role="row" class="markTr"><td class="details-control sp"></td><td colspan="4">大床房</td></tr><tr class="hideTr">'+
             
             '<td>9月13日</td><td>1</td><td>1</td><td>1</td><td>1</td>'+
@@ -29,6 +29,15 @@ function format ( d ) {
             
             '<td>9月13日</td><td>1</td><td>1</td><td>1</td><td>1</td>'+
         '</tr><tr class="hideTr"><td>9月14日</td><td>2</td><td>2</td><td>2</td><td>2</td></tr>'+
+       
+    '</tbody></table>';*/
+	
+	return '<table class="display example" cellspacing="0" width="100%" border="1" borderColor="#dddddd">'+
+        '<tbody><tr role="row" class="markTr"><td class="details-control sp" rowspan="1"></td><td class="roomType" >大床房</td><td>9月13日</td><td>1</td><td>1</td><td>1</td><td>1</td></tr>'+
+        '<tr class="hideTr"><td>9月14日</td><td>2</td><td>2</td><td>2</td><td>2</td></tr>'+
+		
+		'<tr role="row"  class="markTr"><td class="details-control sp" rowspan="1" ></td><td class="roomType" >小床房</td><td>9月13日</td><td>1</td><td>1</td><td>1</td><td>1</td></tr>'+
+        '<tr class="hideTr"><td>9月14日</td><td>2</td><td>2</td><td>2</td><td>2</td></tr>'+
        
     '</tbody></table>';
 }
@@ -65,12 +74,28 @@ $(document).ready(function() {
         }
     } );*/
 	
+	
+	
+	var clickNum=0;
 	$('.example>tbody').on('click', 'td.details-control', function () {
 		//alert($(this).next().text())
 		if($(this).hasClass('sp')){
 			$(this).parent("tr").toggleClass("shown");
 			$(this).parent("tr").nextUntil(".markTr","tr").toggle();
+			
+			
+			if($(this).attr("rowspan")==1){
+				$(this).attr("rowspan","2");
+			    $(this).siblings(".roomType").attr("rowspan","2");
+				
+				}else{
+					$(this).attr("rowspan","1");
+			        $(this).siblings(".roomType").attr("rowspan","1");
+					
+					};
+			
 			}else{
+					
 				    var tr = $(this).closest('tr');
 					var row = table.row( tr );
 					if ( row.child.isShown() ) {
@@ -96,39 +121,5 @@ $(document).ready(function() {
 			}
 		})
 	
-	/*$('.example>tbody').on('click', 'td.details-control',function () {
-		
-		
-        var tr = $(this).closest('tr');
-        var row = table.row( tr );
-		
-		function clickNum(){
-		this.num=0;
-		this.clickF=function(){
-			if(this.num==0){
-				row.child( format(row.data()) ).show();
-           		tr.addClass('shown');
-				}else{
-					 row.child.hide();
-            		tr.removeClass('shown');
-					}
-			}
-		}
-		var newClick=new clickNum();
-		
-        if ( row.child.isShown() ) {
-            // This row is already open - close it
-            
-			
-			newClick.num=1;
-			newClick.clickF();
-        }
-        else {
-            // Open this row
-			newClick.num=0;
-			newClick.clickF();
-        }
-		
-		
-    } );*/
+	
 } );
